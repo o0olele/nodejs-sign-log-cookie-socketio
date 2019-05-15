@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>reg</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        .bg {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            padding: 1px;
+        }
+
+        .card {
+            margin: auto;
+            margin-top: 1%;
+            width: 30%;
+            background-color: rgba(0, 0, 0, 0.7);
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+    </style>
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file: // 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]><script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        < ![endif]-->​
+
+</head>
+
+<body>
+
+    <div class="bg">
+        <div class="card">
+            <div class="container-fluid" style="width:80%;height:70%">
+                <h1 style="color:#ffffff">Register</h1>
+                <form id="modifyPasswordForm" method="post" style="margin:5%">
+                    <div class="form-group" style="color:#ffffff">
+                        <label for="regName" style="color:#ffffff">Username</label>
+                        <input type="text" class="form-control" id="regName" name="regName" placeholder="Name">
+                    </div>
+                    <div class="form-group" style="color:#ffffff">
+                        <label for="regRealName" style="color:#ffffff">Realname</label>
+                        <input type="text" class="form-control" id="regRealName" name="regRealName" placeholder="RealName">
+                    </div>
+                    <div class="form-group" style="color:#ffffff">
+                        <label for="regBirth" style="color:#ffffff">Birthday</label>
+                        <input type="date" class="form-control" id="regBirth" name="regBirth" placeholder="Birthday">
+                    </div>
+                    <div class="form-group" style="color:#ffffff">
+                        <label for="regTel" style="color:#ffffff">Teltphone</label>
+                        <input type="tel" class="form-control" id="regTel" name="regTel" placeholder="Telephone">
+                    </div>
+                    <div class="form-group" style="color:#ffffff">
+                        <label for="regEmail" style="color:#ffffff">Email</label>
+                        <input type="email" class="form-control" id="regEmail" name="regEmail" placeholder="Email">
+                        <% if(locals.error) { %>
+                        <div class="popLayer" id="poplayer"></div>
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" style="color: red" data-dismiss="alert"
+                                aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <strong>Warning!</strong> <%= error %>
+                        </div>
+                        <% } %>
+                    </div>
+                    <div class="form-group" style="color:#ffffff">
+                        <label for="regPwd" style="color:#ffffff">Password</label>
+                        <input type="password" class="form-control" id="regPwd" name="regPwd" placeholder="Password">
+                    </div>
+                    <div class="form-group" style="color:#ffffff">
+                        <label for="regRepwd" style="color:#ffffff">Confirm Password</label>
+                        <input type="password" class="form-control" id="regRepwd" name="regRepwd"
+                            placeholder="ConfirmPassword">
+                    </div>
+                    <input type="submit" class="btn btn-block btn-primary" style="margin-top:30px;margin-bottom:30px"
+                        value="Reg" />
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script>
+        $(window).scroll(function () {
+            if ($(".navbar").offset().top > 50) {
+                $(".navbar-fixed-top").addClass("top-nav");
+            } else { $(".navbar-fixed-top").removeClass("top-nav"); }
+        })
+    </script>
+    <script>
+        //用户名必须需包含数字和大小写字母中至少两种
+        $.validator.addMethod("passwordrule", function (value, element) {
+            var userblank = /^(?![0-9]+$)(?![a-z]+$)(?![A-Z]+$)[0-9A-Za-z]{6,10}$/;
+            return this.optional(element) || (userblank.test(value));
+        }, "需包含数字和大小写字母中至少两种字符的5-10位字符");
+
+        $("#modifyPasswordForm").validate({
+            rules: {
+                regName: {
+                    required: true,
+                    minlength: 4,
+                    maxlength: 10
+                },
+                regRealName: {
+                    required: true,
+                    maxlength: 10
+                },
+                regBirth:{
+                    required:true
+                },
+                regEmail:{
+                    required:true
+                },
+                regTel:{
+                    required:true
+                },
+                regPwd: {
+                    required: true,
+                    minlength: 6,
+                    passwordrule: true
+                },
+                regRepwd: {
+                    required: true,
+                    minlength: 6,
+                    equalTo: "#regPwd"
+                }
+            },
+            messages: {
+                regName: {
+                    required: "请输入您的用户名",
+                    minlength: "请输入最少4字符",
+                    maxlength: "请输入最多10字符"
+                },
+                regRealName:{
+                    required: "请输入真实姓名",
+                    maxlength: "请输入最多10字符"
+                },
+                regBirth:{
+                    required:"请选择出生日期"
+                },
+                regEmail:{
+                    required:"请输入邮箱"
+                },
+                regTel:{
+                    required:"请输入电话"
+                },
+                regPwd: {
+                    required: "请输入您的密码",
+                    minlength: "请输入最少为6字符",
+                    passwordrule: "为了保证您的账号安全，需包含数字和大小写字母中至少两种字符的6-10位字符!"
+                },
+                regRepwd: {
+                    required: "请输入您的确认密码",
+                    minlength: "请输入最少为6字符",
+                    equalTo: "两次密码输入不一致"
+
+                },
+            },
+            submitHandler: function () {
+                layer.msg("成功");
+            }
+
+
+        });
+    </script>
+    <script>
+        $(window).resize(function () {
+            if ($(document.body).width() > 800)
+                $("div.card").css("width", "30%");
+            else {
+                $("div.card").css("width", "80%");
+
+            }
+        });
+        $(window).load(function () {
+            if ($(document.body).width() > 800)
+                $("div.card").css("width", "30%");
+            else {
+                $("div.card").css("width", "80%");
+
+            }
+        });
+    </script>
+</body>
+
+</html>
